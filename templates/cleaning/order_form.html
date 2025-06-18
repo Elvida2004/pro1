@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Редактирование заявки{% else %}Создание заявки{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <form method="post" class="card p-4" style="width: 400px;">
+        <h2 class="card-title text-center mb-4">
+            {% if object %}Редактирование заявки{% else %}Создание заявки{% endif %}
+        </h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary w-100">
+            {% if object %}Сохранить{% else %}Создать{% endif %}
+        </button>
+        <a href="{% url 'cleaning:order_list' %}" class="btn btn-danger w-100 mt-2">Назад</a>
+    </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const checkbox = document.querySelector('input[name="is_custom_service"]');
+    const customField = document.querySelector('textarea[name="custom_service"]');
+    const serviceSelect = document.querySelector('select[name="service"]');
+
+    function toggleFields() {
+      if (checkbox.checked) {
+        customField.parentElement.style.display = "block";
+        serviceSelect.disabled = true;
+      } else {
+        customField.parentElement.style.display = "none";
+        serviceSelect.disabled = false;
+      }
+    }
+
+    if (checkbox && customField && serviceSelect) {
+      toggleFields();  // initial state
+      checkbox.addEventListener('change', toggleFields);
+    }
+  });
+</script>
+{% endblock %}

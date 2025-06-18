@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная - Мой Не Сам{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero секция -->
+    <div class="row mb-5 text-center">
+        <div class="col-12">
+            <h1 class="display-4 mb-4">Профессиональная уборка помещений</h1>
+            <p class="lead">Мы заботимся о чистоте вашего пространства</p>
+        </div>
+    </div>
+
+    <!-- Услуги -->
+    <div class="row g-4">
+        <!-- Общий клининг -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 d-flex flex-column service-card">
+                <img src="{% static 'img/house-cleaning.jpg' %}"
+                     class="card-img-top" alt="Общий клининг" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Общий клининг</h5>
+                    <p class="card-text">Комплексная уборка помещений с использованием профессионального оборудования.</p>
+                    <div class="mt-auto text-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'cleaning:order_create' %}?next=/" class="btn btn-primary">Заказать</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}?next={% url 'cleaning:order_create' %}" class="btn btn-primary">Заказать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Генеральная уборка -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 d-flex flex-column service-card">
+                <img src="{% static 'img/clean.png' %}"
+                     class="card-img-top" alt="Генеральная уборка" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Генеральная уборка</h5>
+                    <p class="card-text">Тщательная уборка всех поверхностей, включая труднодоступные места.</p>
+                    <div class="mt-auto text-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'cleaning:order_create' %}?next=/" class="btn btn-primary">Заказать</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}?next={% url 'cleaning:order_create' %}" class="btn btn-primary">Заказать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Послестроительная уборка -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 d-flex flex-column service-card">
+                <img src="{% static 'img/clean3.png' %}"
+                     class="card-img-top" alt="Послестроительная уборка" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Послестроительная уборка</h5>
+                    <p class="card-text">Удаление строительной пыли и мусора после ремонта.</p>
+                    <div class="mt-auto text-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'cleaning:order_create' %}?next=/" class="btn btn-primary">Заказать</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}?next={% url 'cleaning:order_create' %}" class="btn btn-primary">Заказать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Химчистка -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 d-flex flex-column service-card">
+                <img src="{% static 'img/clean4.png' %}"
+                     class="card-img-top" alt="Химчистка ковров и мебели" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Химчистка ковров и мебели</h5>
+                    <p class="card-text">Профессиональная чистка мягкой мебели и ковровых покрытий.</p>
+                    <div class="mt-auto text-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'cleaning:order_create' %}?next=/" class="btn btn-primary">Заказать</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}?next={% url 'cleaning:order_create' %}" class="btn btn-primary">Заказать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .service-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

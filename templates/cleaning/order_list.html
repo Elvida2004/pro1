@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Мои заявки{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center mb-4 mt-5">Мои заявки</h1>
+
+    <div class="table-responsive">
+        <table class="table table-hover w-100">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Адрес</th>
+                    <th>Телефон</th>
+                    <th>Email</th>
+                    <th>Вид услуги</th>
+                    <th>Дата и время</th>
+                    <th>Тип оплаты</th>
+                    <th>Статус</th>
+                    <th>Причина отмены</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for object in object_list %}
+                <tr>
+                    <td>{{ object.user.username }}</td>
+                    <td>{{ object.address }}</td>
+                    <td>{{ object.phone }}</td>
+                    <td>{{ object.email }}</td>
+                    <td>
+                        {% if object.is_custom_service %}
+                            {{ object.custom_service }}
+                        {% else %}
+                            {{ object.get_service_display }}
+                        {% endif %}
+                    </td>
+                    <td>{{ object.date_and_time }}</td>
+                    <td>{{ object.get_payment_type_display }}</td>
+                    <td>
+                        <span class="badge
+                            {% if object.status == 'done' %}bg-success
+                            {% elif object.status == 'cancelled' %}bg-danger
+                            {% elif object.status == 'ip_progress' %}bg-warning
+                            {% else %}bg-primary{% endif %}">
+                            {{ object.get_status_display|default:object.status }}
+                        </span>
+                    </td>
+                    <td style="word-wrap: break-word; min-width: 150px;">
+                        {% if object.status == "cancelled" %}
+                            {{ object.cancellation_reason|default:"—" }}
+                        {% else %}
+                            — 
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'cleaning:order_update' object.pk %}" class="btn btn-success btn-sm">Редактировать</a>
+                        <a href="{% url 'cleaning:order_delete' object.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center">Заявок нет</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'cleaning:order_create' %}" class="btn btn-primary">Создать заявку</a>
+    </div>
+</div>
+{% endblock %}
